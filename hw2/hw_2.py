@@ -6,14 +6,14 @@
 # Выходные данные:
 # Программа должна вывести одно целое число - минимальное количество монеток, которые нужно перевернуть.
 
-# coins = [0, 1, 0, 1, 1, 0, 0, 0, 0, 0]
-# min = 0
-# for coin in coins:
-#     if(coin == 0):
-#         min += 1
-# if (len(coins) // 2  < min):
-#     min = len(coins) - min
-# print (min)
+coins = [0, 1, 0, 1, 1, 0, 0, 0, 0, 0]
+min = 0
+for coin in coins:
+    if(coin == 0):
+        min += 1
+if (len(coins) // 2  < min):
+    min = len(coins) - min
+print (min)
 
 
 # Задача 2
