@@ -1,7 +1,7 @@
 import os
 import json
 phone_book = []
-phone_book_file = "phonebook.json"
+phone_book_file = "hw8/phonebook.json"
 
 def show_menu():
     """
@@ -54,14 +54,29 @@ def load_phone_book(phone_book_file):
         return json.load(f)
 
 
-def save_phone_book(phone_book, phone_book_file = "phonebook.json"):
+def sort_data_by_name(data):
+    """
+    Функция сортировки данных в алфовитном порядке
+    Сортирует сначала по фамилии, потом по имени
+
+    Args:
+        data (list): Список словарей
+    Returns: 
+        sorted_data (list): Отсортированнный список словарей
+    """
+    sorted_data = sorted(data, key=lambda x: (x["surname"], x["name"]))
+    return sorted_data
+
+
+def save_phone_book(phone_book, phone_book_file = "hw8/phonebook.json"):
     """
     Функция сохраняет список контактов в файл JSON
 
     Args: 
         phone_book (list): список контактов
-        phone_book_file (str) = "phonebook.json": строка с названием файла (значение по умолчанию)
+        phone_book_file (str) = "hw8/phonebook.json": строка с названием файла (значение по умолчанию)
     """
+    phone_book = sort_data_by_name(phone_book)
     with open(phone_book_file, "w", encoding="utf-8") as f:
         json.dump(phone_book, f, indent=4, ensure_ascii=False)
 
@@ -89,11 +104,11 @@ def show_contacts(contacts):
     max_description_len = max(len(contact["description"]) for contact in contacts)
 
     # Вывод таблицы в консольал
-    print("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |".format("Имя", max_name_len, "Фамилия", max_surname_len, "Телефон", max_phone_len, "Описание", max_description_len))
-    print("-" * (max_name_len + max_surname_len + max_phone_len + max_description_len + 13))
+    print("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |".format("Фамилия", max_surname_len, "Имя", max_name_len, "Телефон", max_phone_len, "Описание", max_description_len))
+    print("-" * (max_surname_len + max_name_len + max_phone_len + max_description_len + 13))
     for contact in contacts:
         print("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |".format(
-            contact["name"], max_name_len, contact["surname"], max_surname_len, contact["phone"], max_phone_len, contact["description"], max_description_len
+            contact["surname"], max_surname_len, contact["name"], max_name_len, contact["phone"], max_phone_len, contact["description"], max_description_len
         ))
 
 
@@ -216,21 +231,21 @@ def edit_contact(contacts):
     phone = input("Номер телефона: ") or contact["phone"]
     description = input("Описание: ") or contact["description"]
 
-    contact["name"] = name
     contact["surname"] = surname
+    contact["name"] = name
     contact["phone"] = phone
     contact["description"] = description
     return contacts
 
 
 # Функция для сохранения справочника в текстовый файл
-def save_contacts_to_txt(contacts, file_name = "phone_book.txt"):
+def save_contacts_to_txt(contacts, file_name = "hw8/phone_book.txt"):
     """
     Функция для сохранения контактов в файл txt
 
     Args:
         contacts (list)
-        file_name  = "phone_book.txt" (str): будущее название файла !!! разрешение .txt
+        file_name  = "hw8/phone_book.txt" (str): будущее название файла !!! разрешение .txt
     """
     if contacts == None:
         os.system('cls||clear')
@@ -244,11 +259,11 @@ def save_contacts_to_txt(contacts, file_name = "phone_book.txt"):
 
     # Вывод таблицы в консоль
     with open(file_name, "w") as f:
-        f.write("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |\n".format("Имя", max_name_len, "Фамилия", max_surname_len, "Телефон", max_phone_len, "Описание", max_description_len))
-        f.write("-" * (max_name_len + max_surname_len + max_phone_len + max_description_len + 13) + "\n")
+        f.write("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |\n".format("Фамилия", max_surname_len, "Имя", max_name_len, "Телефон", max_phone_len, "Описание", max_description_len))
+        f.write("-" * (max_surname_len + max_name_len + max_phone_len + max_description_len + 13) + "\n")
         for contact in contacts:
             f.write("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |\n".format(
-                contact["name"], max_name_len, contact["surname"], max_surname_len, contact["phone"], max_phone_len, contact["description"], max_description_len
+                contact["surname"], max_surname_len, contact["name"], max_name_len, contact["phone"], max_phone_len, contact["description"], max_description_len
             ))
 
 
