@@ -1,7 +1,7 @@
 import os
 import json
 phone_book = []
-phone_book_file = "hw8/phonebook.json"
+phone_book_file = "hw8/phonebook.json" # Название и расположение файла записной книги в формате JSON
 
 def show_menu():
     """
@@ -84,6 +84,7 @@ def save_phone_book(phone_book, phone_book_file = "hw8/phonebook.json"):
     print("Данные записной книги обновлены")
     print("="*len("Данные записной книги обновлены"))
 
+
 def show_contacts(contacts):
     """
     Функция отображения контактов. 
@@ -103,9 +104,11 @@ def show_contacts(contacts):
     max_phone_len = max(len(contact["phone"]) for contact in contacts)
     max_description_len = max(len(contact["description"]) for contact in contacts)
 
-    # Вывод таблицы в консольал
+    #? Вывод таблицы в консоль
+    # Вывод заголовка
     print("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |".format("Фамилия", max_surname_len, "Имя", max_name_len, "Телефон", max_phone_len, "Описание", max_description_len))
     print("-" * (max_surname_len + max_name_len + max_phone_len + max_description_len + 13))
+    # Вывод контактов
     for contact in contacts:
         print("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |".format(
             contact["surname"], max_surname_len, contact["name"], max_name_len, contact["phone"], max_phone_len, contact["description"], max_description_len
@@ -122,40 +125,37 @@ def find_contact(contacts):
         contact (list): Список словарей с данными контактов
         None: Если контакт не найден
     """
-    if contacts == None:
+    if contacts == None: # Проверка на пустое значение
         print("Вы ввели некорректные данные, попробуйте еще раз")
-    search_mod = show_search_menu()
+    search_mod = show_search_menu() # Меню поиска
     search_str = None
     data = []
-    while True:
+    flag = True
+    while flag:
         if search_mod == 1:
             search_mod = "name"
-            print("Введите имя для поиска")
-            search_str = input()
-            break
+            search_str = input("Введите имя для поиска")
+            flag = False
         elif search_mod==2:
             search_mod = "surname"
-            print("Введите фамилию для поиска")
-            search_str = input()
-            break
+            search_str = input("Введите фамилию для поиска")
+            flag = False
         elif search_mod==3:
             search_mod = "phone"
-            print("Введите телефон для поиска")
-            search_str = input()
-            break
+            search_str = input("Введите телефон для поиска")
+            flag = False
         elif search_mod==4:
             search_mod = "description"
-            print("Введите описание для поиска")
-            search_str = input()
-            break
+            search_str = input("Введите описание для поиска")
+            flag = False
         elif search_mod==5:
             return None
         search_mod=show_search_menu()
             
-    for contact in contacts:
+    for contact in contacts: # Поиск совпадения строк
         if search_str.lower() in contact[search_mod].lower():
             data.append(contact)
-    if len(data) > 0:
+    if len(data) > 0: 
         return data
     return None
 
@@ -173,7 +173,7 @@ def add_contact(contacts):
     surname = input("Введите фамилию: ")
     phone = input("Введите номер телефона: ")
     description = input("Введите описание: ")
-    new_contact = {"name": name, "surname": surname, "phone": phone, "description": description}
+    new_contact = {"surname": surname, "name": name, "phone": phone, "description": description}
     contacts.append(new_contact)
     return contacts
 
@@ -188,7 +188,7 @@ def remove_contact(contacts, contact_to_del):
     Returns:
         contacts (list): Список контактов без удаленного контакта
     """
-    remove_index = None
+    remove_index = None 
     if contact_to_del == None or len(contact_to_del) == 0:
         print("Такого контакта не найдено")
         return
@@ -217,20 +217,20 @@ def edit_contact(contacts):
         print("Контакт не найден.")
         return
     elif len(contact) > 1:
-        print("Введите номер контакта для изменения")
         show_contacts(contact)
+        print("Введите номер контакта для изменения")
         choice = int(input()) - 1
     if choice != None and choice + 1 <= len(contact):
         contact = contact[choice]
     else:
         contact = contact[0]
 
-    print("Введите новые данные:")
+    print("Введите данные для обновления или нажмите Enter чтобы оставить как было:")
     name = input("Имя: ") or contact["name"]
     surname = input("Фамилия: ") or contact["surname"]
     phone = input("Номер телефона: ") or contact["phone"]
     description = input("Описание: ") or contact["description"]
-
+    
     contact["surname"] = surname
     contact["name"] = name
     contact["phone"] = phone
@@ -238,7 +238,6 @@ def edit_contact(contacts):
     return contacts
 
 
-# Функция для сохранения справочника в текстовый файл
 def save_contacts_to_txt(contacts, file_name = "hw8/phone_book.txt"):
     """
     Функция для сохранения контактов в файл txt
@@ -256,7 +255,6 @@ def save_contacts_to_txt(contacts, file_name = "hw8/phone_book.txt"):
     max_surname_len = max(len(contact["surname"]) for contact in contacts)
     max_phone_len = max(len(contact["phone"]) for contact in contacts)
     max_description_len = max(len(contact["description"]) for contact in contacts)
-
     # Вывод таблицы в консоль
     with open(file_name, "w") as f:
         f.write("| {:<{}} | {:<{}} | {:<{}} | {:<{}} |\n".format("Фамилия", max_surname_len, "Имя", max_name_len, "Телефон", max_phone_len, "Описание", max_description_len))
@@ -304,4 +302,6 @@ def work_with_phonebook(phone_book_file):
         choice = show_menu()
     os.system('cls||clear')
     print("Вы закончили работу с записной книгой")
+
+
 work_with_phonebook(phone_book_file)
