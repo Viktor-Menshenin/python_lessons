@@ -130,24 +130,23 @@ def find_contact(contacts):
     search_mod = show_search_menu() # Меню поиска
     search_str = None
     data = []
-    flag = True
-    while flag:
+    while True:
         if search_mod == 1:
             search_mod = "name"
-            search_str = input("Введите имя для поиска")
-            flag = False
+            search_str = input("Введите имя для поиска: ")
+            break
         elif search_mod==2:
             search_mod = "surname"
-            search_str = input("Введите фамилию для поиска")
-            flag = False
+            search_str = input("Введите фамилию для поиска: ")
+            break
         elif search_mod==3:
             search_mod = "phone"
-            search_str = input("Введите телефон для поиска")
-            flag = False
+            search_str = input("Введите телефон для поиска: ")
+            break
         elif search_mod==4:
             search_mod = "description"
-            search_str = input("Введите описание для поиска")
-            flag = False
+            search_str = input("Введите описание для поиска: ")
+            break
         elif search_mod==5:
             return None
         search_mod=show_search_menu()
